@@ -59,13 +59,22 @@
                     done: active
                     }">{{ todo.title | capitalize }}</v-list-item-title>
                             <v-list-item-content>
+                              <v-list-item-title>내용: {{todo.content}}</v-list-item-title>
                               <v-list-item-title>마감기한: {{todo.deadline}}</v-list-item-title>
                             </v-list-item-content>
-                            <!-- <v-list-item-subtitle>Added on: {{ date }}{{ ord }} {{ day }} {{ year }}</v-list-item-subtitle> -->
                           </v-list-item-content>
-                          <v-btn fab ripple small color="red" v-if="active" @click="removeTodo(i)">
-                            <v-icon class="white--text">mdi-close</v-icon>
+                          <v-btn fab ripple small color="red" v-if="todo.notification === 1">
+                            <v-icon class="white--text">mdi-bell</v-icon>
                           </v-btn>
+                          <v-btn fab ripple small color="pink" v-if="active" @click="updatedTodo(i)">
+                            <v-icon class="white--text">mdi-pencil-outline</v-icon>
+                          </v-btn>
+                          <!-- <v-btn fab ripple small color="green" v-if="active" @click="completed(i)">
+                            <v-icon class="white--text">mdi-check</v-icon>
+                          </v-btn>
+                          <v-btn fab ripple small color="red" v-if="active" @click="removeTodo(i)">
+                            <v-icon class="white--text">mdi-trash-can-outline</v-icon>
+                          </v-btn> -->
                         </template>
                       </v-list-item>
                     </v-list-item-group>
@@ -77,11 +86,17 @@
         </v-theme-provider>
       </v-main>
     </v-app>
+    <todo-detail-view v-if="active" v-bind:detailData="this.todos"></todo-detail-view>
   </div>
 </template>
 <script>
 import { DateTime } from 'luxon';
+import TodoDetailView from './TodoDetailView';
+
 export default {
+  components: {
+    TodoDetailView
+  },
   data () {
     return {
       isDark:false,
@@ -97,21 +112,27 @@ export default {
       deadline: new Date().toISOString().substr(0, 10),
     }
   },
-  mounted() {
-    //오늘날짜 구해서 마감기한과 비교. 마감기한 지났으면 noti icon 보여준다.
-  },
   methods: {
     addTodo() {
       const title = this.newTodoTitle && this.newTodoTitle.trim();
       const deadlineDate = this.deadline.replace(/-/gi,'');
+      const currentDate = DateTime.local().toFormat('yyyyLLdd');
+      let notification = 0;
+
       if (!title) {
+        alert('제목을 입력해주세요');
         return;
       }
+      if (currentDate - deadlineDate > 0) {
+        notification = 1;
+      }
+
       this.todos.push({
         title: this.newTodoTitle,
         content: this.newTodoContent,
-        deadline: deadlineDate,
-        currentDate: DateTime.local().toFormat('yyyyLLdd'),
+        deadline: this.deadline,
+        currentDate: currentDate,
+        notification: notification,
         done: false
       });
       this.newTodoTitle = '';
@@ -119,6 +140,12 @@ export default {
     },
     removeTodo(index) {
       this.todos.splice(index, 1);
+    },
+    updatedTodo(index) {
+      console.log(index);
+    },
+    openModal(index) {
+      console.log(index);
     },
     todoDay() {
       var d = new Date();
@@ -145,7 +172,7 @@ export default {
 }
 </script>
 <style scoped>
-.done {
+/* .done {
   text-decoration: line-through;
-}
+} */
 </style>
