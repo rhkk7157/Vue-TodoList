@@ -25,18 +25,16 @@
                       </span>
                     </v-tooltip>
                   </v-toolbar>
-
                   <v-list two-line subheader>
                     <!-- <v-subheader class="headline">{{day}}, {{date}}{{ord}} {{year}}</v-subheader> -->
                     <br />
                     <p class="mx-12 text-right">총 <b>{{todos.length}}</b> 개</p>
-
                     <v-list-item>
                       <v-list-item-content>
                         <v-list-item-title>
                           <v-text-field v-model="newTodoTitle" name="newTodoTitle" label="Title"/>
                           <v-text-field v-model="newTodoContent" name="newTodoContent" label="Content" @keyup.enter="addTodo"/>
-                          <div v-if="newTodoContent !== ''">
+                          <div v-if="newTodoTitle !== ''">
                               <v-date-picker v-model="deadline"></v-date-picker>
                           </div>
                           <v-btn @click="addTodo">Save</v-btn>
@@ -82,8 +80,8 @@
   </div>
 </template>
 <script>
+import { DateTime } from 'luxon';
 export default {
-  // vuetify: new Vuetify(),
   data () {
     return {
       isDark:false,
@@ -104,16 +102,16 @@ export default {
   },
   methods: {
     addTodo() {
-      console.log(this.deadline);
-      var title = this.newTodoTitle && this.newTodoTitle.trim();
+      const title = this.newTodoTitle && this.newTodoTitle.trim();
+      const deadlineDate = this.deadline.replace(/-/gi,'');
       if (!title) {
         return;
       }
-      
       this.todos.push({
         title: this.newTodoTitle,
         content: this.newTodoContent,
-        deadline: this.deadline,
+        deadline: deadlineDate,
+        currentDate: DateTime.local().toFormat('yyyyLLdd'),
         done: false
       });
       this.newTodoTitle = '';
