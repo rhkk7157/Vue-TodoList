@@ -39,30 +39,39 @@
                         readonly
                       >
                       </v-text-field>
-                      <v-date-picker 
-                        v-if="newTodoTitle !== '' || this.picker !== null"
-                        color="yellow darken-4" 
-                        v-model="picker"
+                      <v-row justify="center">
+                        <v-date-picker 
+                          v-if="newTodoTitle !== '' || this.picker !== null"
+                          color="yellow darken-4" 
+                          v-model="picker"
+                          style="padding-left:10px"
                         ></v-date-picker>
+                      </v-row>
                       <v-card-actions>
                         <v-btn @click="addTodo()" color="default" block dark>Add</v-btn>
                       </v-card-actions>
                     </v-form>
                   </v-list>
-
+                  <br />
                   <v-list subheader two-line flat>
-                    <v-subheader class="subheading" v-if="todos.length == 1">Your Tasks</v-subheader>
+                    <v-row  v-if="todos.length !== 0">
+                      <v-card-actions cols="12" md="6" style="display:flex;position:absolute;right:0">
+                        <v-btn @click="allClear" depressed>All Clear</v-btn>
+                      </v-card-actions>
+                      <v-subheader class="subheading">Your Tasks</v-subheader>
+                    </v-row>
+                    <br />
                     <v-list-item-group>
                       <v-list-item v-for="(todo,i) in filterTodos" :key="todo.id">
-                        <template #default="{ }">
+                        <template>
                           <v-list-item-action>
                             <v-checkbox class="checkbox-1" v-on:change="onClickCompleted(todo)" v-bind:checked="todo.completed"></v-checkbox>
                           </v-list-item-action>
                           <v-list-item-content @click="onClickUpdateTodo(todo.title, todo.content, todo.completed, todo.deadline, i)">
                             <v-list-item-title 
-                                  v-if="todo.completed" 
-                                  v-bind:style="{ textDecoration: textDecoration }"
-                              >{{ todo.title }}</v-list-item-title>
+                              v-if="todo.completed" 
+                              v-bind:style="{ textDecoration: textDecoration }"
+                            >{{ todo.title }}</v-list-item-title>
                             <v-list-item-title v-else>{{ todo.title }}</v-list-item-title>
                             <v-btn fab ripple small color="white" v-if="active" @click="onClickRemove(i)">
                               <v-icon class="black--text">mdi-delete</v-icon>
@@ -80,7 +89,6 @@
                         </template>
                       </v-list-item>
                     </v-list-item-group>
-                    <!-- <v-btn @click="allClear">전체삭제</v-btn> -->
                   </v-list>
                 </v-card>
               </v-col>
