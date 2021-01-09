@@ -73,13 +73,7 @@
                               v-bind:style="{ textDecoration: textDecoration }"
                             >{{ todo.title }}</v-list-item-title>
                             <v-list-item-title v-else>{{ todo.title }}</v-list-item-title>
-                            <v-btn fab ripple small color="white" v-if="active" @click="onClickRemove(i)">
-                              <v-icon class="black--text">mdi-delete</v-icon>
-                            </v-btn>
                           </v-list-item-content>
-                           <v-btn fab ripple small color="white" v-if="active" @click="onClickRemove(i)">
-                            <v-icon class="black--text">mdi-delete</v-icon>
-                          </v-btn>
                           <v-btn fab ripple small color="red" v-if="todo.notification === 1">
                             <v-icon class="white--text">mdi-bell-ring</v-icon>
                           </v-btn>
