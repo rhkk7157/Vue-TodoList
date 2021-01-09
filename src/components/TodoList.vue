@@ -77,6 +77,7 @@
                           <v-btn fab ripple small color="red" v-if="todo.notification === 1">
                             <v-icon class="white--text">mdi-bell-ring</v-icon>
                           </v-btn>
+                          &nbsp;&nbsp;
                           <v-btn fab ripple small color="white" @click="onClickRemove(i)">
                             <v-icon class="black--text">mdi-delete</v-icon>
                           </v-btn>
@@ -153,7 +154,6 @@ export default {
         notification: notification,
         completed: this.completed,
       });
-      console.log(this.todos);
       this.newTodoTitle = '';
       this.newTodoContent = '';
       this.picker = null;
