@@ -6,7 +6,7 @@
   </v-app>
 </template>
 
-// <script>
+<script>
 import TodoList from './components/TodoList';
 // import test from './components/test';
 export default {
