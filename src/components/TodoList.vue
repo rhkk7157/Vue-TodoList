@@ -5,7 +5,7 @@
         <v-theme-provider>
           <v-container>
             <v-row justify="center" class="ma-5">
-              <v-col xs="12" sm="8">
+              <v-col xs="12" sm="6">
                 <v-card>
                   <v-toolbar color="yellow darken-4" dark>
                     <v-toolbar-title class="headline">Todo List</v-toolbar-title>
@@ -15,30 +15,36 @@
                     <br />
                     <p class="mx-12 text-right">총 <b>{{todos.length}}</b> 개</p>
                     <v-form>
-                      <v-text-field 
-                        v-model="newTodoTitle" 
-                        label="제목"  
-                        prepend-icon="mdi-human"
-                        type="text"
-                        outlined
-                      ></v-text-field>
-                      <v-text-field 
-                        v-model="newTodoContent" 
-                        label="내용"  
-                        prepend-icon="mdi-comment-text-outline"
-                        type="text"
-                        outlined
-                        @keyup.enter="addTodo"
-                      ></v-text-field>
-                      <v-text-field
-                        v-if="newTodoTitle !== ''" 
-                        v-model="picker" 
-                        label="마감기한"  
-                        prepend-icon="mdi-calendar"
-                        outlined
-                        readonly
-                      >
-                      </v-text-field>
+                      <v-col cols="12" sm="12">
+                        <v-text-field 
+                          v-model="newTodoTitle" 
+                          label="제목"  
+                          prepend-icon="mdi-human"
+                          type="text"
+                          outlined
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="12">
+                        <v-text-field 
+                          v-model="newTodoContent" 
+                          label="내용"  
+                          prepend-icon="mdi-comment-text-outline"
+                          type="text"
+                          outlined
+                          @keyup.enter="addTodo"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="12">
+                        <v-text-field
+                          v-if="newTodoTitle !== ''" 
+                          v-model="picker" 
+                          label="마감기한"  
+                          prepend-icon="mdi-calendar"
+                          outlined
+                          readonly
+                        >
+                        </v-text-field>
+                      </v-col>
                       <v-row justify="center">
                         <v-date-picker 
                           v-if="newTodoTitle !== '' || this.picker !== null"
@@ -47,9 +53,13 @@
                           style="padding-left:10px"
                         ></v-date-picker>
                       </v-row>
-                      <v-card-actions>
-                        <v-btn @click="addTodo()" color="default" block dark>Add</v-btn>
-                      </v-card-actions>
+                      <v-row justify="center">
+                        <v-col cols="12" sm="12">
+                          <v-card-actions>
+                            <v-btn @click="addTodo()" color="default" block dark>Add</v-btn>
+                          </v-card-actions>
+                        </v-col>
+                      </v-row>
                     </v-form>
                   </v-list>
                   <br />
@@ -125,6 +135,9 @@ export default {
   },
   methods: {
     replaceDate(value) {
+      if(!value) {
+        return;
+      }
       return value.replace(/-/gi,'');
     },
     addTodo() {
@@ -134,10 +147,15 @@ export default {
       const replacedCurrentDate = this.replaceDate(getCurrentDate);
       let notification = 0;
 
+
       if (!title) {
         alert('제목을 입력해주세요');
         return;
+      } else if(!deadlineDate) {
+        alert('마감기한을 입력해주세요');
+        return;
       }
+
       if (replacedCurrentDate - deadlineDate > 0) {
         notification = 1;
       }

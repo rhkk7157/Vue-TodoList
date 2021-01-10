@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" max-width="auto">
+  <v-dialog v-model="dialog" max-width="500">
    <v-card fluid class="pa-4 mt-2">
      <v-toolbar dark color="orange">
        <v-btn @click="dialog = false" icon>
