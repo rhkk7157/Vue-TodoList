@@ -15,6 +15,7 @@
           prepend-icon="mdi-human"
           type="text"
           outlined
+          :disabled="detailTodo.completed"
         ></v-text-field>
         <v-text-field
           v-model="detailTodo.content"
@@ -22,6 +23,7 @@
           prepend-icon="mdi-comment-text-outline"
           type="text"
           outlined
+          :disabled="detailTodo.completed"
         ></v-text-field>
         <v-text-field
           v-model="detailTodo.deadline"
@@ -30,9 +32,10 @@
           type="text"
           outlined
           readonly
+          :disabled="detailTodo.completed"
         ></v-text-field>
         <v-card-actions>
-          <v-btn @click="onClickUpdate(detailTodo.title, detailTodo.content,detailTodo.index)" color="default" block dark>수정</v-btn>
+          <v-btn @click="onClickUpdate(detailTodo.title, detailTodo.content, detailTodo.completed, detailTodo.index)" color="default" block dark>수정</v-btn>
         </v-card-actions>
      </v-form>
    </v-card>
@@ -59,7 +62,10 @@ export default {
     cancel() {
       this.dialog = false;
     },
-    onClickUpdate(updatedTitle, updatedContent, index) {
+    onClickUpdate(updatedTitle, updatedContent, completed, index) {
+      if(completed) {
+        alert('완료체크 된 항목은 수정 할 수 없습니다.');
+      }
       this.$emit('updatedData', updatedTitle, updatedContent, index);
       this.cancel();
     }

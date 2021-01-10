@@ -77,7 +77,7 @@
                           <v-list-item-action>
                             <v-checkbox class="checkbox-1" v-on:change="onClickCompleted(todo)" v-bind:checked="todo.completed"></v-checkbox>
                           </v-list-item-action>
-                          <v-list-item-content @click="onClickUpdateTodo(todo.title, todo.content, todo.completed, todo.deadline, i)">
+                          <v-list-item-content @click="onClickUpdateTodo(todo.title, todo.content, todo.completed, todo.deadline, todo.currentDate, i)">
                             <v-list-item-title 
                               v-if="todo.completed" 
                               v-bind:style="{ textDecoration: textDecoration }"
@@ -87,7 +87,6 @@
                           <v-btn fab ripple small color="red" v-if="todo.notification === 1">
                             <v-icon class="white--text">mdi-bell-ring</v-icon>
                           </v-btn>
-                          &nbsp;&nbsp;
                           <v-btn fab ripple small color="white" @click="onClickRemove(i)">
                             <v-icon class="black--text">mdi-delete</v-icon>
                           </v-btn>
@@ -182,15 +181,12 @@ export default {
     onClickCompleted(todo) {
       todo.completed = !todo.completed;
     },
-    onClickUpdateTodo(title, content, completed, deadline, i) {
-      if(completed) {
-        alert('완료 항목은 수정 할 수 없습니다.');
-        return false;
-      }
+    onClickUpdateTodo(title, content, completed, deadline, currentDate, i) {
       this.updateTodo.index = i;
       this.updateTodo.title = title;
       this.updateTodo.content = content;
       this.updateTodo.deadline = deadline;
+      this.updateTodo.completed = completed;
       this.$refs.TodoDetailComponent.open(this.updateTodo);
     },
     allClear() {
