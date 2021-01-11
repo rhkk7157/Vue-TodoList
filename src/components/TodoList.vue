@@ -72,12 +72,12 @@
                     </v-row>
                     <br />
                     <v-list-item-group>
-                      <v-list-item v-for="(todo,i) in filterTodos" :key="todo.id">
+                      <v-list-item v-for="todo in filterTodos" :key="todo.id">
                         <template>
                           <v-list-item-action>
                             <v-checkbox class="checkbox-1" v-on:change="onClickCompleted(todo)" v-bind:checked="todo.completed"></v-checkbox>
                           </v-list-item-action>
-                          <v-list-item-content @click="onClickUpdateTodo(todo.title, todo.content, todo.completed, todo.deadline, todo.currentDate, i)">
+                          <v-list-item-content @click="onClickUpdateTodo(todo.title, todo.content, todo.completed, todo.deadline, todo.currentDate, todo.id)">
                             <v-list-item-title 
                               v-if="todo.completed" 
                               v-bind:style="{ textDecoration: textDecoration }"
@@ -193,8 +193,8 @@ export default {
       this.todos = [];
     },
     newUpdated(title, content, index) {
-      this.todos[index].title = title;
-      this.todos[index].content = content;
+      this.todos[index-1].title = title;
+      this.todos[index-1].content = content;
     },
   },
 }
