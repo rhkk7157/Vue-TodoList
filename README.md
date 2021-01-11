@@ -1,3 +1,8 @@
+## yarn install
+```
+npm install -g yarn
+```
+
 ## Project setup
 ```
 yarn install
@@ -19,6 +24,7 @@ TodoList
 ```
 ### Development Environment
 ```
+- npm
 - yarn
 - Vue.js
 - Vuetify
